@@ -84,11 +84,35 @@ var blackjack = {
     };
     deck.splice(playerSecondCardDealtRandomizedNumber, 1);
   },
+  dealDealerCard1: function () {
+  var dealerFirstCardDealtRandomizedNumber = Math.floor(Math.random() * deck.length);
+  var dealerActualFirstCard = deck[dealerFirstCardDealtRandomizedNumber];
+
+  if (dealerActualFirstCard.Card == "Ace") {
+    blackjack.inPlay.dealerAces.push(dealerActualFirstCard)
+  } else {
+    blackjack.inPlay.dealerCards.push(dealerActualFirstCard)
+  };
+    deck.splice(dealerFirstCardDealtRandomizedNumber, 1);
+  },
+  dealDealerCard2: function () {
+    var dealerSecondCardDealtRandomizedNumber = Math.floor(Math.random() * deck.length);
+    var dealerActualSecondCard = deck[dealerSecondCardDealtRandomizedNumber];
+
+    if (dealerActualSecondCard.Card == "Ace") {
+      blackjack.inPlay.dealerAces.push(dealerActualSecondCard)
+    } else {
+      blackjack.inPlay.dealerCards.push(dealerActualSecondCard)
+    };
+    deck.splice(dealerSecondCardDealtRandomizedNumber, 1);
+  },
 }
 console.log (blackjack.dealPlayerCard1());
-// this line above and the one above, take out console.log to
-// just run the functions and not get returned undefined when using
-// console on chrome
+console.log (blackjack.dealDealerCard1());
+console.log (blackjack.dealPlayerCard2());
+console.log (blackjack.dealDealerCard2());
+// these 4 lines above, take out console.log to just run the functions and
+// not get returned undefined when using console on chrome
 console.log (blackjack.inPlay.playerCards);
 console.log (blackjack.inPlay.playerAces);
 console.log (deck.length);
