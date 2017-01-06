@@ -133,18 +133,24 @@ var blackjack = {
     }
     dealerCardValue = dealerShowedFirstCardValue;
   },
+  updatePlayerCardValue: function () {
+    $('.PlayerValue').text(playerCardValue)
+  },
+  updateDealerCardValue: function () {
+    $('.DealerValue').text(dealerCardValue)
+  }
 }
 
-blackjack.dealPlayerCard1()
-blackjack.dealDealerCard1()
-blackjack.dealerShowedCardValue()
-blackjack.dealPlayerCard2()
-blackjack.playerCardValueAfterFirst2()
-blackjack.dealDealerCard2()
-console.log (blackjack.inPlay.playerCards);
-console.log (blackjack.inPlay.playerAces);
-console.log (blackjack.inPlay.dealerCards);
-console.log (blackjack.inPlay.dealerAces);
-console.log (deck.length);
-console.log (playerCardValue);
-console.log (dealerCardValue);
+// blackjack.dealPlayerCard1()
+// blackjack.dealDealerCard1()
+// blackjack.dealerShowedCardValue()
+// blackjack.dealPlayerCard2()
+// blackjack.playerCardValueAfterFirst2()
+// blackjack.dealDealerCard2()
+// console.log (blackjack.inPlay.playerCards);
+// console.log (blackjack.inPlay.playerAces);
+// console.log (blackjack.inPlay.dealerCards);
+// console.log (blackjack.inPlay.dealerAces);
+// console.log (deck.length);
+// console.log (playerCardValue);
+// console.log (dealerCardValue);
