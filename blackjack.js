@@ -68,6 +68,8 @@ $('#Start').one("click", function (e) {
     // } else {
       $('.Bank').text(Number($('.Bank').text()) - this.betAmount);
       $('.BetAmount').text(this.betAmount);
+      $('#Start').toggleClass('hidden')
+      $('#NewRound').toggleClass('hidden')
       blackjack.dealPlayerCard1();
     // }
   })
@@ -134,10 +136,6 @@ var blackjack = {
     deck.splice(dealerSecondCardDealtRandomizedNumber, 1);
     $('#HitMe').one("click", function (e) {
       blackjack.playerHit();
-      // blackjack.playerCardValueAfterHit();
-      // blackjack.updatePlayerCardValue();
-      // var delayedUpdateTime = blackjack.playerBustMechanic
-      // setTimeout(delayedUpdateTime, 500);
     })
     $('#Stay').one("click", function(f) {
       blackjack.playerStay();
@@ -292,8 +290,6 @@ var blackjack = {
         blackjack.playerHit();
         blackjack.playerCardValueAfterHit();
         blackjack.updatePlayerCardValue();
-        // var delayedUpdateTime = blackjack.playerBustMechanic
-        // setTimeout(delayedUpdateTime, 500);
       })
       $('#Stay').one("click", function (f) {
         blackjack.playerStay();
@@ -309,31 +305,57 @@ var blackjack = {
       alert("Dealer Busts! Player Wins!")
       $('.Bank').text(Number($('.Bank').text()) + (Number($('.BetAmount').text() * 1.5)));
       $('.BetAmount').text(0);
-    } else if (parseInt(playerCardValue) > 22) {
+    } else if (parseInt(playerCardValue) > 21) {
       $('.BetAmount').text(0);
     } else if (parseInt(playerCardValue) > parseInt(dealerCardValue) && parseInt(playerCardValue) < 22) {
       alert("Player Wins!")
       $('.Bank').text(Number($('.Bank').text()) + (Number($('.BetAmount').text() * 1.5)));
       $('.BetAmount').text(0);
+    } else if (parseInt(playerCardValue) < parseInt(dealerCardValue) && parseInt(dealerCardValue) < 22) {
+      alert("Dealer Wins!")
+      $('.BetAmount').text(0);
+    }
+    $('.rounds').text(Number($('.rounds').text()) + 1)
+    $('#NewRound').one("click", function () {
+      blackjack.newRound();
+      $('#Bet').one("click", function (f) {
+        this.betAmount = prompt("How much would you like to bet? Minimum $25")
+        $('.Bank').text(Number($('.Bank').text()) - this.betAmount);
+        $('.BetAmount').text(this.betAmount);
+        blackjack.shuffleDeck();
+        blackjack.dealPlayerCard1();
+      })
+    })
+  },
+  newRound: function () {
+    for (var i = 0; i < this.inPlay.playerCards.length; i++) {
+        this.usedCards.push(this.inPlay.playerCards[i])
+    }
+    for (var j = 0; j < this.inPlay.playerAces.length; j++) {
+      this.usedCards.push(this.inPlay.playerAces[j])
+    }
+    for (var k = 0; k < this.inPlay.dealerCards.length; k++) {
+      this.usedCards.push(this.inPlay.dealerCards[k])
+    }
+    for (var l = 0; l < this.inPlay.dealerAces.length; l++) {
+      this.usedCards.push(this.inPlay.dealerAces[l])
+    }
+    this.inPlay.playerCards = []
+    this.inPlay.playerAces = []
+    this.inPlay.dealerCards = []
+    this.inPlay.dealerAces = []
+    playerCardValue = 0
+    blackjack.updatePlayerCardValue()
+    dealerCardValue = 0
+    blackjack.updateDealerCardValue()
+  },
+  shuffleDeck: function () {
+    if (deck.length < 20) {
+      alert("Looks like the deck's running a little short! Time to shuffle!")
+      for (var i = 0; i < this.usedCards.length; i++) {
+        deck.push(this.usedCards[i])
+      }
+      this.usedCards = []
     }
   }
 }
-
-// var startGameTest = function () {
-// // blackjack.dealPlayerCard1()
-// blackjack.dealDealerCard1()
-// blackjack.dealerShowedCardValue()
-// blackjack.updateDealerCardValue()
-// blackjack.dealPlayerCard2()
-// blackjack.playerCardValueAfterFirst2()
-// blackjack.updatePlayerCardValue()
-// blackjack.dealDealerCard2()
-// }
-
-// console.log (blackjack.inPlay.playerCards);
-// console.log (blackjack.inPlay.playerAces);
-// console.log (blackjack.inPlay.dealerCards);
-// console.log (blackjack.inPlay.dealerAces);
-// console.log (deck.length);
-// console.log (playerCardValue);
-// console.log (dealerCardValue);
