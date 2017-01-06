@@ -53,6 +53,13 @@ var deck = [
   {Card: 'Ace', Suit: 'Spade', Value: undefined}
 ];
 
+$('#Start').one("click", function (e) {
+  $('#Bet').one("click", function (f) {
+    $('.Bank').text(Number($('.Bank').text()) - 25);
+    blackjack.dealPlayerCard1();
+  })
+});
+
 var playerCardValue = undefined;
 var dealerCardValue = undefined;
 
@@ -109,17 +116,26 @@ var blackjack = {
     };
     deck.splice(dealerSecondCardDealtRandomizedNumber, 1);
   },
+  playerFirstCardValue: function () {
+    if (this.inPlay.playerCards.length == 0 && this.inPlay.playerAces.length == 1) {
+      this.inPlay.playerAces[0].Value = 11
+      playerCardValue = parseInt(this.inPlay.playerAces[0].Value)
+    } else if (this.inPlay.playerCards.length == 1 && this.inPlay.playerAces.length == 0) {
+      playerCardValue = parseInt(this.inPlay.playerCards[0].Value)
+    }
+    $('.PlayerValue').text(playerCardValue)
+  },
   playerCardValueAfterFirst2: function () {
     var playerCardValueAfterFirstHand = 0
     if (this.inPlay.playerCards.length == 2 && this.inPlay.playerAces.length == 0) {
       playerCardValueAfterFirstHand = parseInt(this.inPlay.playerCards[0].Value) + parseInt(this.inPlay.playerCards[1].Value)
     } else if (this.inPlay.playerCards.length == 1 && this.inPlay.playerAces.length == 1) {
-      this.inPlay.playerAces[0].Value = 11
+      // this.inPlay.playerAces[0].Value = 11
       playerCardValueAfterFirstHand = parseInt(this.inPlay.playerCards[0].Value) + parseInt(this.inPlay.playerAces[0].Value)
     } else if (this.inPlay.playerCards.length == 0 && this.inPlay.playerAces.length == 2) {
-      this.inPlay.playerAces[0].Value = 11
-        this.inPlay.playerAces[1].Value = 1
-        playerCardValueAFterFirstHand = parseInt(this.inPlay.playerAces[0].Value) + parseInt(this.inPlay.playerAces[1].Value)
+      // this.inPlay.playerAces[0].Value = 11
+      this.inPlay.playerAces[1].Value = 1
+      playerCardValueAFterFirstHand = parseInt(this.inPlay.playerAces[0].Value) + parseInt(this.inPlay.playerAces[1].Value)
     }
     playerCardValue = playerCardValueAfterFirstHand;
   },
@@ -138,15 +154,63 @@ var blackjack = {
   },
   updateDealerCardValue: function () {
     $('.DealerValue').text(dealerCardValue)
-  }
+  },
+  playerHit: function () {
+    var playerHitCardDealtRandomizedNumber = Math.floor(Math.random() * deck.length);
+    var playerActualHitCard = deck[playerHitCardDealtRandomizedNumber];
+    if (playerActualHitCard.Card == "Ace") {
+      this.inPlay.playerAces.push(playerActualHitCard)
+    } else {
+      this.inPlay.playerCards.push(playerActualHitCard)
+    };
+    deck.splice(playerHitCardDealtRandomizedNumber, 1);
+  },
+  playerCardValueAfterHit: function () {
+    playerCardValue = 0
+    if (this.inPlay.playerAces.length == 0) {
+      for (var i = 0; i < blackjack.inPlay.playerCards.length; i++) {
+        playerCardValue += parseInt(blackjack.inPlay.playerCards[i].Value)
+      }
+    } else if (this.inPlay.playerAces.length == 1) {
+      for (var j = 0; j < blackjack.inPlay.playerCards.length; j++) {
+        playerCardValue += parseInt(blackjack.inPlay.playerCards[j].Value)
+      }
+      if (playerCardValue > 10) {
+        this.inPlay.playerAces[0].Value = 1
+        playerCardValue += parseInt(this.inPlay.playerAces[0].Value)
+      } else {
+        this.inPlay.playerAces[0].Value = 11
+        playerCardValue += parseInt(this.inPlay.playerAces[0].Value)
+      }
+    } else {
+      // This part go back to it later..rare cases where you get 2 aces, look into splitting mechanic
+      var firstPlayerAce = this.inPlay.playerAces[0]
+      firstPlayerAce.Value = 11
+      for (var k = 1; k < blackjack.inPlay.playerAces.length; k++) {
+        this.inPlay.playerAces[k].Value = 1
+      }
+      playerCardValue = parseInt(firstplayerAce.Value) + parseInt(this.inPlay.playerAces[1].Value)
+    }
+  },
+  playerBustMechanic: function () {
+    if (playerCardValue == 21) {
+      prompt("Blackjack!")
+    } else if (playerCardValue > 21) {
+      prompt("Bust!")
+    }
+  },
+
 }
 
 // blackjack.dealPlayerCard1()
 // blackjack.dealDealerCard1()
 // blackjack.dealerShowedCardValue()
+// blackjack.updateDealerCardValue()
 // blackjack.dealPlayerCard2()
 // blackjack.playerCardValueAfterFirst2()
+// blackjack.updatePlayerCardValue()
 // blackjack.dealDealerCard2()
+
 // console.log (blackjack.inPlay.playerCards);
 // console.log (blackjack.inPlay.playerAces);
 // console.log (blackjack.inPlay.dealerCards);
