@@ -56,6 +56,7 @@ var deck = [
 $('#Start').one("click", function (e) {
   $('#Bet').one("click", function (f) {
     this.betAmount = prompt("How much would you like to bet? Minimum $25")
+    // console.log(this);
     //come back later and fix this while loop..turns into an infinite loop, probably because the second prompt input doesnt register
     // if (this.betAmount < 25) {
     //   this.betTryTwo = prompt("I'm sorry, that's not enough to begin! Please bet at least $25")
@@ -66,6 +67,7 @@ $('#Start').one("click", function (e) {
     //   blackjack.dealPlayerCard1();
     // } else {
       $('.Bank').text(Number($('.Bank').text()) - this.betAmount);
+      $('.BetAmount').text(this.betAmount);
       blackjack.dealPlayerCard1();
     // }
   })
@@ -93,6 +95,7 @@ var blackjack = {
       this.inPlay.playerCards.push(playerActualFirstCard)
     };
     deck.splice(playerFirstCardDealtRandomizedNumber, 1);
+    blackjack.playerFirstCardValue();
   },
   dealPlayerCard2: function () {
     var playerSecondCardDealtRandomizedNumber = Math.floor(Math.random() * deck.length);
@@ -104,6 +107,7 @@ var blackjack = {
       blackjack.inPlay.playerCards.push(playerActualSecondCard)
     };
     deck.splice(playerSecondCardDealtRandomizedNumber, 1);
+    blackjack.playerCardValueAfterFirst2();
   },
   dealDealerCard1: function () {
   var dealerFirstCardDealtRandomizedNumber = Math.floor(Math.random() * deck.length);
@@ -115,6 +119,8 @@ var blackjack = {
     blackjack.inPlay.dealerCards.push(dealerActualFirstCard)
   };
     deck.splice(dealerFirstCardDealtRandomizedNumber, 1);
+    blackjack.dealerShowedCardValue();
+    blackjack.dealPlayerCard2();
   },
   dealDealerCard2: function () {
     var dealerSecondCardDealtRandomizedNumber = Math.floor(Math.random() * deck.length);
@@ -128,13 +134,13 @@ var blackjack = {
     deck.splice(dealerSecondCardDealtRandomizedNumber, 1);
     $('#HitMe').one("click", function (e) {
       blackjack.playerHit();
-      blackjack.playerCardValueAfterHit();
-      blackjack.updatePlayerCardValue();
-      var delayedUpdateTime = blackjack.playerBustMechanic
-      setTimeout(delayedUpdateTime, 500);
+      // blackjack.playerCardValueAfterHit();
+      // blackjack.updatePlayerCardValue();
+      // var delayedUpdateTime = blackjack.playerBustMechanic
+      // setTimeout(delayedUpdateTime, 500);
     })
     $('#Stay').one("click", function(f) {
-      
+      blackjack.playerStay();
     })
   },
   playerFirstCardValue: function () {
@@ -145,6 +151,7 @@ var blackjack = {
       playerCardValue = parseInt(this.inPlay.playerCards[0].Value)
     }
     $('.PlayerValue').text(playerCardValue)
+    blackjack.dealDealerCard1();
   },
   playerCardValueAfterFirst2: function () {
     var playerCardValueAfterFirstHand = 0
@@ -159,6 +166,8 @@ var blackjack = {
       playerCardValueAFterFirstHand = parseInt(this.inPlay.playerAces[0].Value) + parseInt(this.inPlay.playerAces[1].Value)
     }
     playerCardValue = playerCardValueAfterFirstHand;
+    blackjack.updatePlayerCardValue();
+    blackjack.dealDealerCard2();
   },
   dealerShowedCardValue: function () {
     var dealerShowedFirstCardValue = 0
@@ -169,6 +178,7 @@ var blackjack = {
         dealerShowedFirstCardValue = parseInt(this.inPlay.dealerAces[0].Value)
     }
     dealerCardValue = dealerShowedFirstCardValue;
+    blackjack.updateDealerCardValue();
   },
   updatePlayerCardValue: function () {
     $('.PlayerValue').text(playerCardValue)
@@ -185,6 +195,7 @@ var blackjack = {
       this.inPlay.playerCards.push(playerActualHitCard)
     };
     deck.splice(playerHitCardDealtRandomizedNumber, 1);
+    blackjack.playerCardValueAfterHit();
   },
   playerCardValueAfterHit: function () {
     playerCardValue = 0
@@ -212,35 +223,112 @@ var blackjack = {
       }
       playerCardValue = parseInt(firstplayerAce.Value) + parseInt(this.inPlay.playerAces[1].Value)
     }
+    blackjack.updatePlayerCardValue();
+    var delayedUpdateTime = blackjack.playerBustMechanic
+    setTimeout(delayedUpdateTime, 500);
+  },
+  dealerCardValueAfterFirst2: function () {
+    dealerCardValue = 0
+    if (this.inPlay.dealerCards.length > 1) {
+      for (var i = 0; i < this.inPlay.dealerCards.length; i++) {
+        dealerCardValue += parseInt(this.inPlay.dealerCards[i].Value)
+      }
+    } else if (this.inPlay.dealerCards.length == 1 && this.inPlay.dealerAces.length == 1) {
+      this.inPlay.dealerAces[0].Value = 11
+      dealerCardValue = parseInt(this.inPlay.dealerCards[0].Value) + parseInt(this.inPlay.dealerAces[0].Value)
+    }
+    blackjack.updateDealerCardValue();
+    setTimeout(blackjack.dealerHit, 1500);
+  },
+  dealerHit: function () {
+    if (parseInt(dealerCardValue) < 17) {
+      var dealerHitCardDealtRandomizedNumber = Math.floor(Math.random() * deck.length);
+      var dealerActualHitCard = deck[dealerHitCardDealtRandomizedNumber];
+      if (dealerActualHitCard.Card == "Ace") {
+        this.inPlay.dealerAces.push(dealerActualHitCard)
+      } else {
+        blackjack.inPlay.dealerCards.push(dealerActualHitCard)
+      };
+      deck.splice(dealerHitCardDealtRandomizedNumber, 1);
+      blackjack.dealerCardValueAfterHit();
+    } else {
+      blackjack.outcome();
+    }
+  },
+  dealerCardValueAfterHit: function () {
+    dealerCardValue = 0
+    if (this.inPlay.dealerAces == 0) {
+      for (var i = 0; i < this.inPlay.dealerCards.length; i++) {
+        dealerCardValue += parseInt(this.inPlay.dealerCards[i].Value)
+      }
+    } else if (this.inPlay.dealerAces == 1) {
+      for (var j = 0; j < this.inPlay.dealerCards.length; j++) {
+        dealerCardValue += parseInt(this.inPlay.dealerCards[j].Value)
+      }
+      if (parseInt(dealerCardValue) > 10) {
+        this.inPlay.dealerAces[0].Value = 1
+        dealerCardValue += parseInt(this.inPlay.dealerAces[0].Value)
+      } else {
+        this.inPlay.dealerAces[0].Value = 11
+        dealerCardValue += parseInt(this.inPlay.dealerAces[0].Value)
+      }
+    }
+    //make sure to put in another else clause for when the dealer has more than one ace
+    blackjack.updateDealerCardValue();
+    blackjack.dealerHit();
+  },
+  playerStay: function () {
+    this.dealerCardValueAfterFirst2();
   },
   playerBustMechanic: function () {
     if (playerCardValue == 21) {
       alert("Blackjack!")
+
     } else if (playerCardValue > 21) {
-      alert("Bust!")
+      alert("Player Busts! You lose!")
+      blackjack.outcome();
     } else {
       $('#HitMe').one("click", function (e) {
         blackjack.playerHit();
         blackjack.playerCardValueAfterHit();
         blackjack.updatePlayerCardValue();
-        var delayedUpdateTime = blackjack.playerBustMechanic
-        setTimeout(delayedUpdateTime, 500);
+        // var delayedUpdateTime = blackjack.playerBustMechanic
+        // setTimeout(delayedUpdateTime, 500);
+      })
+      $('#Stay').one("click", function (f) {
+        blackjack.playerStay();
       })
     }
   },
-
+  outcome: function () {
+    if (playerCardValue == dealerCardValue && parseInt(playerCardValue) < 22) {
+      alert("Push!")
+      $('.Bank').text(Number($('.Bank').text()) + Number($('.BetAmount').text()));
+      $('.BetAmount').text(0);
+    } else if (parseInt(playerCardValue) < 22 && parseInt(dealerCardValue) > 21) {
+      alert("Dealer Busts! Player Wins!")
+      $('.Bank').text(Number($('.Bank').text()) + (Number($('.BetAmount').text() * 1.5)));
+      $('.BetAmount').text(0);
+    } else if (parseInt(playerCardValue) > 22) {
+      $('.BetAmount').text(0);
+    } else if (parseInt(playerCardValue) > parseInt(dealerCardValue) && parseInt(playerCardValue) < 22) {
+      alert("Player Wins!")
+      $('.Bank').text(Number($('.Bank').text()) + (Number($('.BetAmount').text() * 1.5)));
+      $('.BetAmount').text(0);
+    }
+  }
 }
 
-var startGameTest = function () {
-// blackjack.dealPlayerCard1()
-blackjack.dealDealerCard1()
-blackjack.dealerShowedCardValue()
-blackjack.updateDealerCardValue()
-blackjack.dealPlayerCard2()
-blackjack.playerCardValueAfterFirst2()
-blackjack.updatePlayerCardValue()
-blackjack.dealDealerCard2()
-}
+// var startGameTest = function () {
+// // blackjack.dealPlayerCard1()
+// blackjack.dealDealerCard1()
+// blackjack.dealerShowedCardValue()
+// blackjack.updateDealerCardValue()
+// blackjack.dealPlayerCard2()
+// blackjack.playerCardValueAfterFirst2()
+// blackjack.updatePlayerCardValue()
+// blackjack.dealDealerCard2()
+// }
 
 // console.log (blackjack.inPlay.playerCards);
 // console.log (blackjack.inPlay.playerAces);
