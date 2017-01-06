@@ -123,16 +123,28 @@ var blackjack = {
     }
     playerCardValue = playerCardValueAfterFirstHand;
   },
+  dealerShowedCardValue: function () {
+    var dealerShowedFirstCardValue = 0
+    if (this.inPlay.dealerCards.length == 1 && this.inPlay.dealerAces.length == 0) {
+      dealerShowedFirstCardValue = parseInt(this.inPlay.dealerCards[0].Value)
+    } else if (this.inPlay.dealerCards.length == 0 && this.inPlay.dealerAces.length == 1) {
+      this.inPlay.dealerAces[0].Value = 11
+        dealerShowedFirstCardValue = parseInt(this.inPlay.playerAces[0].Value)
+    }
+    dealerCardValue = dealerShowedFirstCardValue;
+  },
 }
 
 blackjack.dealPlayerCard1()
 blackjack.dealDealerCard1()
+blackjack.dealerShowedCardValue()
 blackjack.dealPlayerCard2()
-blackjack.dealDealerCard2()
 blackjack.playerCardValueAfterFirst2()
+blackjack.dealDealerCard2()
 console.log (blackjack.inPlay.playerCards);
 console.log (blackjack.inPlay.playerAces);
 console.log (blackjack.inPlay.dealerCards);
 console.log (blackjack.inPlay.dealerAces);
 console.log (deck.length);
 console.log (playerCardValue);
+console.log (dealerCardValue);
