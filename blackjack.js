@@ -47,10 +47,10 @@ var deck = [
   {Card: 'King', Suit: 'Clover', Value: 10},
   {Card: 'King', Suit: 'Heart', Value: 10},
   {Card: 'King', Suit: 'Spade', Value: 10},
-  {Card: 'Ace', Suit: 'Diamond', Value: 1},
-  {Card: 'Ace', Suit: 'Clover', Value: 1},
-  {Card: 'Ace', Suit: 'Heart', Value: 1},
-  {Card: 'Ace', Suit: 'Spade', Value: 1}
+  {Card: 'Ace', Suit: 'Diamond', Value: 11},
+  {Card: 'Ace', Suit: 'Clover', Value: 11},
+  {Card: 'Ace', Suit: 'Heart', Value: 11},
+  {Card: 'Ace', Suit: 'Spade', Value: 11}
 ];
 
 $('#Start').one("click", function (e) {
@@ -141,6 +141,30 @@ var blackjack = {
     for (var i = 0; i < this.inPlay.dealerCards.length; i++) {
       blackjack.dealerCardValue += parseInt(this.inPlay.dealerCards.Value)
     }
+  },
+
+  playerAceValueChecker: function () {
+    for (var i = 0; i < this.inPlay.playerCards.length; i++) {
+      if (blackjack.inPlay.playerCards[i].Card == "Ace") {
+        if (blackjack.playerCardValue > 10) {
+          blackjack.inPlay.playerCards[i].Value = 1
+        }
+      }
+    }
+  },
+
+  dealerAceValueChecker: function () {
+    for (var i = 0; i < this.inPlay.dealerCards.length; i++) {
+      if (blackjack.inPlay.dealerCards[i].Card == "Ace") {
+        if (blackjack.dealerCardValue > 10) {
+          blackjack.inPlay.dealerCards[i].Value = 1
+        }
+      }
+    }
+  },
+
+  playerHit: function () {
+
   },
 
   // playerFirstCardValue: function () {
