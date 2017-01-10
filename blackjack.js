@@ -54,6 +54,8 @@ var deck = [
 ];
 
 var startGame = $('#Start').on("click", function (e) {
+  // $('div#playerCardArea').after('<div id="playerCards" class="cardstack" style="font-size: 12px;">')
+  // $('div#dealerCardArea').after('<div id="dealerCards" class="cardstack" style="font-size: 12px;">')
   $('#Bet').one("click", function (f) {
     this.betAmount = prompt("How much would you like to bet? Minimum $25")
     // console.log(this);
@@ -109,6 +111,7 @@ var blackjack = {
   gameMechanic: function () {
     this.playerCard();
     this.dealerCard();
+    this.renderDealerCards();
     this.dealerAceValueChecker();
     this.dealerValue();
     this.updateDealerCardValue();
@@ -118,6 +121,7 @@ var blackjack = {
     this.playerValue();
     this.updatePlayerCardValue();
     this.dealerCard();
+    this.renderDealerCardHidden();
     this.dealerValue();
     $('#HitMe').on('click', function (g) {
       console.log("clicked Hit Me")
@@ -155,18 +159,47 @@ var blackjack = {
   dealerCard: function () {
     this.dealCard()
     this.inPlay.dealerCards.push(this.inPlay.cards[0])
-    var cardRank = this.inPlay.cards[0].Card
-    var cardSuit = this.inPlay.cards[0].Suit
-    if (cardSuit == 'D') {
-      $('div#dealerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &diams; </div>')
-    } else if (cardSuit == 'C') {
-      $('div#dealerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &hearts; </div>')
-    } else if (cardSuit == 'H') {
-      $('div#dealerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &clubs; </div>')
-    } else if (cardSuit == 'S') {
-      $('div#dealerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &spades; </div>')
-    }
     this.inPlay.cards.splice(0, 1)
+  },
+
+  renderDealerCards: function () {
+    // $('div#dealerCards').detach()
+    // $('div#dealerCardArea').after('<div id="dealerCards" class="cardstack" style="font-size: 12px;">')
+    // if (this.inPlay.dealerCards.length = 1) {
+    //   cardRank = this.inPlay.dealerCards[0].Card
+    //   cardSuit = this.inPlay.dealerCards[0].Suit
+    //   if (cardSuit == 'D') {
+    //     $('div#dealerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &diams; </div>')
+    //   } else if (cardSuit == 'C') {
+    //     $('div#dealerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &hearts; </div>')
+    //   } else if (cardSuit == 'H') {
+    //     $('div#dealerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &clubs; </div>')
+    //   } else if (cardSuit == 'S') {
+    //     $('div#dealerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &spades; </div>')
+    //   }
+    // } else if (this.inPlay.dealerCards.length = 2) {
+    //   $('div#dealerCards').append('<div class="card rank"> + Hidden! + <br/></div>')
+    // } else {
+      $('div#dealerCards').remove()
+      $('div#dealerCardArea').after('<div id="dealerCards" class="cardstack" style="font-size: 12px;">')
+      for (var i = 0; i < this.inPlay.dealerCards.length; i++) {
+        cardRank = this.inPlay.dealerCards[i].Card
+        cardSuit = this.inPlay.dealerCards[i].Suit
+        if (cardSuit == 'D') {
+          $('div#dealerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &diams; </div>')
+        } else if (cardSuit == 'C') {
+          $('div#dealerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &hearts; </div>')
+        } else if (cardSuit == 'H') {
+          $('div#dealerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &clubs; </div>')
+        } else if (cardSuit == 'S') {
+          $('div#dealerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &spades; </div>')
+        }
+      }
+    // }
+  },
+
+  renderDealerCardHidden: function () {
+    $('div#dealerCards').append('<div class="card rank"> + Hidden! + <br/></div>')
   },
 
   updatePlayerCardValue: function () {
@@ -232,6 +265,7 @@ var blackjack = {
   dealerHit: function () {
     this.dealerValue();
     this.dealerCard();
+    this.renderDealerCards();
     this.dealerValue();
     this.dealerAceValueChecker();
     this.dealerValue();
@@ -296,6 +330,10 @@ var blackjack = {
     }
     this.inPlay.playerCards = [];
     this.inPlay.dealerCards = [];
+    $('div#playerCards').remove();
+    $('div#dealerCards').remove();
+    $('div#playerCardArea').after('<div id="playerCards" class="cardstack" style="font-size: 12px;">')
+    $('div#dealerCardArea').after('<div id="dealerCards" class="cardstack" style="font-size: 12px;">')
   },
 
   shuffleDeck: function () {
