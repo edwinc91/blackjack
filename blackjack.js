@@ -101,6 +101,8 @@ var blackjack = {
     // dealerAces: []
   },
   usedCards: [],
+  playerCardValue: 0,
+  dealerCardValue: 0,
 
   dealCard: function () {
     var cardDealtRandomizedNumber = Math.floor(Math.random() * deck.length);
@@ -121,105 +123,64 @@ var blackjack = {
     this.inPlay.cards.splice(0, 1)
   },
 
-  
-
-  // dealPlayerCard1: function () {
-  //   var playerFirstCardDealtRandomizedNumber = Math.floor(Math.random() * deck.length);
-  //   var playerActualFirstCard = deck[playerFirstCardDealtRandomizedNumber];
-  //   //return (playerActualFirstCard);
-  //   if (playerActualFirstCard.Card == "Ace") {
-  //     this.inPlay.playerAces.push(playerActualFirstCard)
-  //   } else {
-  //     this.inPlay.playerCards.push(playerActualFirstCard)
-  //   };
-  //   deck.splice(playerFirstCardDealtRandomizedNumber, 1);
-  //   blackjack.playerFirstCardValue();
-  // },
-  // dealPlayerCard2: function () {
-  //   var playerSecondCardDealtRandomizedNumber = Math.floor(Math.random() * deck.length);
-  //   var playerActualSecondCard = deck[playerSecondCardDealtRandomizedNumber];
-  //
-  //   if (playerActualSecondCard.Card == "Ace") {
-  //     blackjack.inPlay.playerAces.push(playerActualSecondCard)
-  //   } else {
-  //     blackjack.inPlay.playerCards.push(playerActualSecondCard)
-  //   };
-  //   deck.splice(playerSecondCardDealtRandomizedNumber, 1);
-  //   blackjack.playerCardValueAfterFirst2();
-  // },
-  // dealDealerCard1: function () {
-  // var dealerFirstCardDealtRandomizedNumber = Math.floor(Math.random() * deck.length);
-  // var dealerActualFirstCard = deck[dealerFirstCardDealtRandomizedNumber];
-  //
-  // if (dealerActualFirstCard.Card == "Ace") {
-  //   blackjack.inPlay.dealerAces.push(dealerActualFirstCard)
-  // } else {
-  //   blackjack.inPlay.dealerCards.push(dealerActualFirstCard)
-  // };
-  //   deck.splice(dealerFirstCardDealtRandomizedNumber, 1);
-  //   blackjack.dealerShowedCardValue();
-  //   blackjack.dealPlayerCard2();
-  // },
-  // dealDealerCard2: function () {
-  //   var dealerSecondCardDealtRandomizedNumber = Math.floor(Math.random() * deck.length);
-  //   var dealerActualSecondCard = deck[dealerSecondCardDealtRandomizedNumber];
-  //
-  //   if (dealerActualSecondCard.Card == "Ace") {
-  //     blackjack.inPlay.dealerAces.push(dealerActualSecondCard)
-  //   } else {
-  //     blackjack.inPlay.dealerCards.push(dealerActualSecondCard)
-  //   };
-  //   deck.splice(dealerSecondCardDealtRandomizedNumber, 1);
-  //   $('#HitMe').one("click", function (e) {
-  //     blackjack.playerHit();
-  //   })
-  //   $('#Stay').one("click", function(f) {
-  //     blackjack.playerStay();
-  //   })
-  // },
-  playerFirstCardValue: function () {
-    if (this.inPlay.playerCards.length == 0 && this.inPlay.playerAces.length == 1) {
-      this.inPlay.playerAces[0].Value = 11
-      playerCardValue = parseInt(this.inPlay.playerAces[0].Value)
-    } else if (this.inPlay.playerCards.length == 1 && this.inPlay.playerAces.length == 0) {
-      playerCardValue = parseInt(this.inPlay.playerCards[0].Value)
-    }
-    $('.PlayerValue').text(playerCardValue)
-    blackjack.dealDealerCard1();
-  },
-  playerCardValueAfterFirst2: function () {
-    var playerCardValueAfterFirstHand = 0
-    if (this.inPlay.playerCards.length == 2 && this.inPlay.playerAces.length == 0) {
-      playerCardValueAfterFirstHand = parseInt(this.inPlay.playerCards[0].Value) + parseInt(this.inPlay.playerCards[1].Value)
-    } else if (this.inPlay.playerCards.length == 1 && this.inPlay.playerAces.length == 1) {
-      this.inPlay.playerAces[0].Value = 11
-      playerCardValueAfterFirstHand = parseInt(this.inPlay.playerCards[0].Value) + parseInt(this.inPlay.playerAces[0].Value)
-    } else if (this.inPlay.playerCards.length == 0 && this.inPlay.playerAces.length == 2) {
-      // this.inPlay.playerAces[0].Value = 11
-      this.inPlay.playerAces[1].Value = 1
-      playerCardValueAfterFirstHand = parseInt(this.inPlay.playerAces[0].Value) + parseInt(this.inPlay.playerAces[1].Value)
-    }
-    playerCardValue = playerCardValueAfterFirstHand;
-    blackjack.updatePlayerCardValue();
-    blackjack.dealDealerCard2();
-  },
-  dealerShowedCardValue: function () {
-    var dealerShowedFirstCardValue = 0
-    if (this.inPlay.dealerCards.length == 1 && this.inPlay.dealerAces.length == 0) {
-      dealerShowedFirstCardValue = parseInt(this.inPlay.dealerCards[0].Value)
-    } else if (this.inPlay.dealerCards.length == 0 && this.inPlay.dealerAces.length == 1) {
-      this.inPlay.dealerAces[0].Value = 11
-        dealerShowedFirstCardValue = parseInt(this.inPlay.dealerAces[0].Value)
-    }
-    dealerCardValue = dealerShowedFirstCardValue;
-    blackjack.updateDealerCardValue();
-  },
   updatePlayerCardValue: function () {
     $('.PlayerValue').text(playerCardValue)
   },
+
   updateDealerCardValue: function () {
     $('.DealerValue').text(dealerCardValue)
   },
+
+  playerValue: function () {
+    for (var i = 0; i < this.inPlay.playerCards.length; i++) {
+      blackjack.playerCardValue += parseInt(this.inPlay.playerCards.Value)
+    }
+  },
+
+  dealerValue: function () {
+    for (var i = 0; i < this.inPlay.dealerCards.length; i++) {
+      blackjack.dealerCardValue += parseInt(this.inPlay.dealerCards.Value)
+    }
+  },
+
+  // playerFirstCardValue: function () {
+  //   if (this.inPlay.playerCards.length == 0 && this.inPlay.playerAces.length == 1) {
+  //     this.inPlay.playerAces[0].Value = 11
+  //     playerCardValue = parseInt(this.inPlay.playerAces[0].Value)
+  //   } else if (this.inPlay.playerCards.length == 1 && this.inPlay.playerAces.length == 0) {
+  //     playerCardValue = parseInt(this.inPlay.playerCards[0].Value)
+  //   }
+  //   $('.PlayerValue').text(playerCardValue)
+  //   blackjack.dealDealerCard1();
+  // },
+  // playerCardValueAfterFirst2: function () {
+  //   var playerCardValueAfterFirstHand = 0
+  //   if (this.inPlay.playerCards.length == 2 && this.inPlay.playerAces.length == 0) {
+  //     playerCardValueAfterFirstHand = parseInt(this.inPlay.playerCards[0].Value) + parseInt(this.inPlay.playerCards[1].Value)
+  //   } else if (this.inPlay.playerCards.length == 1 && this.inPlay.playerAces.length == 1) {
+  //     this.inPlay.playerAces[0].Value = 11
+  //     playerCardValueAfterFirstHand = parseInt(this.inPlay.playerCards[0].Value) + parseInt(this.inPlay.playerAces[0].Value)
+  //   } else if (this.inPlay.playerCards.length == 0 && this.inPlay.playerAces.length == 2) {
+  //     // this.inPlay.playerAces[0].Value = 11
+  //     this.inPlay.playerAces[1].Value = 1
+  //     playerCardValueAfterFirstHand = parseInt(this.inPlay.playerAces[0].Value) + parseInt(this.inPlay.playerAces[1].Value)
+  //   }
+  //   playerCardValue = playerCardValueAfterFirstHand;
+  //   blackjack.updatePlayerCardValue();
+  //   blackjack.dealDealerCard2();
+  // },
+  // dealerShowedCardValue: function () {
+  //   var dealerShowedFirstCardValue = 0
+  //   if (this.inPlay.dealerCards.length == 1 && this.inPlay.dealerAces.length == 0) {
+  //     dealerShowedFirstCardValue = parseInt(this.inPlay.dealerCards[0].Value)
+  //   } else if (this.inPlay.dealerCards.length == 0 && this.inPlay.dealerAces.length == 1) {
+  //     this.inPlay.dealerAces[0].Value = 11
+  //       dealerShowedFirstCardValue = parseInt(this.inPlay.dealerAces[0].Value)
+  //   }
+  //   dealerCardValue = dealerShowedFirstCardValue;
+  //   blackjack.updateDealerCardValue();
+  // },
+
   playerHit: function () {
     var playerHitCardDealtRandomizedNumber = Math.floor(Math.random() * deck.length);
     var playerActualHitCard = deck[playerHitCardDealtRandomizedNumber];
