@@ -107,19 +107,22 @@ var blackjack = {
   dealerCardValue: 0,
 
   gameMechanic: function () {
-    blackjack.playerCard();
-    blackjack.dealerCard();
-    blackjack.dealerValue();
-    blackjack.updateDealerCardValue();
-    blackjack.playerCard();
-    blackjack.playerValue();
-    blackjack.updatePlayerCardValue();
-    blackjack.dealerCard();
-    blackjack.dealerValue();
+    this.playerCard();
+    this.dealerCard();
+    this.dealerAceValueChecker();
+    this.dealerValue();
+    this.updateDealerCardValue();
+    this.playerCard();
+    this.playerValue();
+    this.playerAceValueChecker();
+    this.playerValue();
+    this.updatePlayerCardValue();
+    this.dealerCard();
+    this.dealerValue();
     $('#HitMe').on('click', function (g) {
       console.log("clicked Hit Me")
       blackjack.playerHit();
-    })
+    });
     $('#Stay').on('click', function (h) {
       blackjack.dealerHitMechanic();
     });
@@ -133,13 +136,13 @@ var blackjack = {
   },
 
   playerCard: function () {
-    blackjack.dealCard()
+    this.dealCard()
     this.inPlay.playerCards.push(this.inPlay.cards[0])
     this.inPlay.cards.splice(0, 1)
   },
 
   dealerCard: function () {
-    blackjack.dealCard()
+    this.dealCard()
     this.inPlay.dealerCards.push(this.inPlay.cards[0])
     this.inPlay.cards.splice(0, 1)
   },
@@ -153,31 +156,34 @@ var blackjack = {
   },
 
   playerValue: function () {
-    blackjack.playerCardValue = 0;
-    for (var i = 0; i < blackjack.inPlay.playerCards.length; i++) {
-      blackjack.playerCardValue += parseInt(blackjack.inPlay.playerCards[i].Value)
+    this.playerCardValue = 0;
+    for (var i = 0; i < this.inPlay.playerCards.length; i++) {
+      this.playerCardValue += parseInt(this.inPlay.playerCards[i].Value)
     }
   },
 
   dealerValue: function () {
-    blackjack.dealerCardValue = 0;
-    for (var i = 0; i < blackjack.inPlay.dealerCards.length; i++) {
-      blackjack.dealerCardValue += parseInt(blackjack.inPlay.dealerCards[i].Value)
+    this.dealerCardValue = 0;
+    for (var i = 0; i < this.inPlay.dealerCards.length; i++) {
+      this.dealerCardValue += parseInt(this.inPlay.dealerCards[i].Value)
     }
   },
 
   playerAceValueChecker: function () {
     for (var i = 0; i < this.inPlay.playerCards.length; i++) {
-      if (blackjack.inPlay.playerCards[i].Card == "Ace" && (blackjack.playerCardValue + 10) < 22) {
-        blackjack.inPlay.playerCards[i].Value = 11
+      console.log(this.playerCardValue)
+      if (this.inPlay.playerCards[i].Card == "Ace" && (this.playerCardValue + 10) < 22) {
+        this.inPlay.playerCards[i].Value = 11
       }
     }
   },
 
   dealerAceValueChecker: function () {
     for (var i = 0; i < this.inPlay.dealerCards.length; i++) {
-      if (blackjack.inPlay.dealerCards[i].Card == "Ace" && (blackjack.dealerCardValue + 10) < 22) {
-        blackjack.inPlay.dealerCards[i].Value = 11
+      if (this.inPlay.dealerCards[i].Card == "Ace" && (this.dealerCardValue + 10) < 22) {
+        this.inPlay.dealerCards[i].Value = 11
+      } else if (this.inPlay.dealerCards[i].Card == "Ace" && (this.dealerCardValue + 10) > 22) {
+        this.inPlay.dealerCards[i].Value = 1
       }
     }
   },
@@ -194,30 +200,29 @@ var blackjack = {
 
   didPlayerBust: function () {
     if (this.playerCardValue > 21) {
-      blackjack.updatePlayerCardValue();
-      blackjack.outcome();
+      this.updatePlayerCardValue();
+      this.outcome();
     } else {
-      blackjack.updatePlayerCardValue();
+      this.updatePlayerCardValue();
     }
   },
 
   dealerHit: function () {
-    this.dealerAceValueChecker();
     this.dealerValue();
     this.dealerCard();
-    // this.dealerValue();
+    this.dealerValue();
     this.dealerAceValueChecker();
     this.dealerValue();
   },
 
   dealerHitMechanic: function () {
     if (this.dealerCardValue < 17) {
-      blackjack.dealerHit();
-      blackjack.updateDealerCardValue();
+      this.dealerHit();
+      this.updateDealerCardValue();
       blackjack.dealerHitMechanic();
     } else {
-      blackjack.updateDealerCardValue();
-      blackjack.outcome();
+      this.updateDealerCardValue();
+      this.outcome();
     }
   },
 
