@@ -1,56 +1,56 @@
 var deck = [
-  {Card: '2', Suit: 'Diamond', Value: 2},
-  {Card: '2', Suit: 'Clover', Value: 2},
-  {Card: '2', Suit: 'Heart', Value: 2},
-  {Card: '2', Suit: 'Spade', Value: 2},
-  {Card: '3', Suit: 'Diamond', Value: 3},
-  {Card: '3', Suit: 'Clover', Value: 3},
-  {Card: '3', Suit: 'Heart', Value: 3},
-  {Card: '3', Suit: 'Spade', Value: 3},
-  {Card: '4', Suit: 'Diamond', Value: 4},
-  {Card: '4', Suit: 'Clover', Value: 4},
-  {Card: '4', Suit: 'Heart', Value: 4},
-  {Card: '4', Suit: 'Spade', Value: 4},
-  {Card: '5', Suit: 'Diamond', Value: 5},
-  {Card: '5', Suit: 'Clover', Value: 5},
-  {Card: '5', Suit: 'Heart', Value: 5},
-  {Card: '5', Suit: 'Spade', Value: 5},
-  {Card: '6', Suit: 'Diamond', Value: 6},
-  {Card: '6', Suit: 'Clover', Value: 6},
-  {Card: '6', Suit: 'Heart', Value: 6},
-  {Card: '6', Suit: 'Spade', Value: 6},
-  {Card: '7', Suit: 'Diamond', Value: 7},
-  {Card: '7', Suit: 'Clover', Value: 7},
-  {Card: '7', Suit: 'Heart', Value: 7},
-  {Card: '7', Suit: 'Spade', Value: 7},
-  {Card: '8', Suit: 'Diamond', Value: 8},
-  {Card: '8', Suit: 'Clover', Value: 8},
-  {Card: '8', Suit: 'Heart', Value: 8},
-  {Card: '8', Suit: 'Spade', Value: 8},
-  {Card: '9', Suit: 'Diamond', Value: 9},
-  {Card: '9', Suit: 'Clover', Value: 9},
-  {Card: '9', Suit: 'Heart', Value: 9},
-  {Card: '9', Suit: 'Spade', Value: 9},
-  {Card: '10', Suit: 'Diamond', Value: 10},
-  {Card: '10', Suit: 'Clover', Value: 10},
-  {Card: '10', Suit: 'Heart', Value: 10},
-  {Card: '10', Suit: 'Spade', Value: 10},
-  {Card: 'Jack', Suit: 'Diamond', Value: 10},
-  {Card: 'Jack', Suit: 'Clover', Value: 10},
-  {Card: 'Jack', Suit: 'Heart', Value: 10},
-  {Card: 'Jack', Suit: 'Spade', Value: 10},
-  {Card: 'Queen', Suit: 'Diamond', Value: 10},
-  {Card: 'Queen', Suit: 'Clover', Value: 10},
-  {Card: 'Queen', Suit: 'Heart', Value: 10},
-  {Card: 'Queen', Suit: 'Spade', Value: 10},
-  {Card: 'King', Suit: 'Diamond', Value: 10},
-  {Card: 'King', Suit: 'Clover', Value: 10},
-  {Card: 'King', Suit: 'Heart', Value: 10},
-  {Card: 'King', Suit: 'Spade', Value: 10},
-  {Card: 'Ace', Suit: 'Diamond', Value: 1},
-  {Card: 'Ace', Suit: 'Clover', Value: 1},
-  {Card: 'Ace', Suit: 'Heart', Value: 1},
-  {Card: 'Ace', Suit: 'Spade', Value: 1}
+  {Card: '2', Suit: 'D', Value: 2},
+  {Card: '2', Suit: 'C', Value: 2},
+  {Card: '2', Suit: 'H', Value: 2},
+  {Card: '2', Suit: 'S', Value: 2},
+  {Card: '3', Suit: 'D', Value: 3},
+  {Card: '3', Suit: 'C', Value: 3},
+  {Card: '3', Suit: 'H', Value: 3},
+  {Card: '3', Suit: 'S', Value: 3},
+  {Card: '4', Suit: 'D', Value: 4},
+  {Card: '4', Suit: 'C', Value: 4},
+  {Card: '4', Suit: 'H', Value: 4},
+  {Card: '4', Suit: 'S', Value: 4},
+  {Card: '5', Suit: 'D', Value: 5},
+  {Card: '5', Suit: 'C', Value: 5},
+  {Card: '5', Suit: 'H', Value: 5},
+  {Card: '5', Suit: 'S', Value: 5},
+  {Card: '6', Suit: 'D', Value: 6},
+  {Card: '6', Suit: 'C', Value: 6},
+  {Card: '6', Suit: 'H', Value: 6},
+  {Card: '6', Suit: 'S', Value: 6},
+  {Card: '7', Suit: 'D', Value: 7},
+  {Card: '7', Suit: 'C', Value: 7},
+  {Card: '7', Suit: 'H', Value: 7},
+  {Card: '7', Suit: 'S', Value: 7},
+  {Card: '8', Suit: 'D', Value: 8},
+  {Card: '8', Suit: 'C', Value: 8},
+  {Card: '8', Suit: 'H', Value: 8},
+  {Card: '8', Suit: 'S', Value: 8},
+  {Card: '9', Suit: 'D', Value: 9},
+  {Card: '9', Suit: 'C', Value: 9},
+  {Card: '9', Suit: 'H', Value: 9},
+  {Card: '9', Suit: 'S', Value: 9},
+  {Card: '10', Suit: 'D', Value: 10},
+  {Card: '10', Suit: 'C', Value: 10},
+  {Card: '10', Suit: 'H', Value: 10},
+  {Card: '10', Suit: 'S', Value: 10},
+  {Card: 'J', Suit: 'D', Value: 10},
+  {Card: 'J', Suit: 'C', Value: 10},
+  {Card: 'J', Suit: 'H', Value: 10},
+  {Card: 'J', Suit: 'S', Value: 10},
+  {Card: 'Q', Suit: 'D', Value: 10},
+  {Card: 'Q', Suit: 'C', Value: 10},
+  {Card: 'Q', Suit: 'H', Value: 10},
+  {Card: 'Q', Suit: 'S', Value: 10},
+  {Card: 'K', Suit: 'D', Value: 10},
+  {Card: 'K', Suit: 'C', Value: 10},
+  {Card: 'K', Suit: 'H', Value: 10},
+  {Card: 'K', Suit: 'S', Value: 10},
+  {Card: 'A', Suit: 'D', Value: 1},
+  {Card: 'A', Suit: 'C', Value: 1},
+  {Card: 'A', Suit: 'H', Value: 1},
+  {Card: 'A', Suit: 'S', Value: 1}
 ];
 
 var startGame = $('#Start').on("click", function (e) {
@@ -64,7 +64,7 @@ var startGame = $('#Start').on("click", function (e) {
     //     prompt ("I'm sorry, that's not enough to begin! Please bet at least $25")
     //   }
     //   $('.Bank').text(Number($('.Bank').text()) - this.betTryTwo);
-    //   blackjack.dealPlayerCard1();
+    //   blackQ.dealPlayerCard1();
     // } else {
     // if ($'.Bank').text(Number($('.Bank').text()) < this.betAmount) {
       // prompt("It appears you don't have enough money to make that bet!")
@@ -138,12 +138,34 @@ var blackjack = {
   playerCard: function () {
     this.dealCard()
     this.inPlay.playerCards.push(this.inPlay.cards[0])
+    var cardRank = this.inPlay.cards[0].Card
+    var cardSuit = this.inPlay.cards[0].Suit
+    if (cardSuit == 'D') {
+      $('div#playerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &diams; </div>')
+    } else if (cardSuit == 'C') {
+      $('div#playerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &hearts; </div>')
+    } else if (cardSuit == 'H') {
+      $('div#playerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &clubs; </div>')
+    } else if (cardSuit == 'S') {
+      $('div#playerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &spades; </div>')
+    }
     this.inPlay.cards.splice(0, 1)
   },
 
   dealerCard: function () {
     this.dealCard()
     this.inPlay.dealerCards.push(this.inPlay.cards[0])
+    var cardRank = this.inPlay.cards[0].Card
+    var cardSuit = this.inPlay.cards[0].Suit
+    if (cardSuit == 'D') {
+      $('div#dealerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &diams; </div>')
+    } else if (cardSuit == 'C') {
+      $('div#dealerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &hearts; </div>')
+    } else if (cardSuit == 'H') {
+      $('div#dealerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &clubs; </div>')
+    } else if (cardSuit == 'S') {
+      $('div#dealerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &spades; </div>')
+    }
     this.inPlay.cards.splice(0, 1)
   },
 
@@ -172,7 +194,7 @@ var blackjack = {
   playerAceValueChecker: function () {
     for (var i = 0; i < this.inPlay.playerCards.length; i++) {
       console.log(this.playerCardValue)
-      if (this.inPlay.playerCards[i].Card == "Ace" && (this.playerCardValue + 10) < 22) {
+      if (this.inPlay.playerCards[i].Card == "A" && (this.playerCardValue + 10) < 22) {
         this.inPlay.playerCards[i].Value = 11
       }
     }
@@ -180,9 +202,9 @@ var blackjack = {
 
   dealerAceValueChecker: function () {
     for (var i = 0; i < this.inPlay.dealerCards.length; i++) {
-      if (this.inPlay.dealerCards[i].Card == "Ace" && (this.dealerCardValue + 10) < 22) {
+      if (this.inPlay.dealerCards[i].Card == "A" && (this.dealerCardValue + 10) < 22) {
         this.inPlay.dealerCards[i].Value = 11
-      } else if (this.inPlay.dealerCards[i].Card == "Ace" && (this.dealerCardValue + 10) > 22) {
+      } else if (this.inPlay.dealerCards[i].Card == "A" && (this.dealerCardValue + 10) > 22) {
         this.inPlay.dealerCards[i].Value = 1
       }
     }
