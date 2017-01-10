@@ -47,13 +47,13 @@ var deck = [
   {Card: 'King', Suit: 'Clover', Value: 10},
   {Card: 'King', Suit: 'Heart', Value: 10},
   {Card: 'King', Suit: 'Spade', Value: 10},
-  {Card: 'Ace', Suit: 'Diamond', Value: 11},
-  {Card: 'Ace', Suit: 'Clover', Value: 11},
-  {Card: 'Ace', Suit: 'Heart', Value: 11},
-  {Card: 'Ace', Suit: 'Spade', Value: 11}
+  {Card: 'Ace', Suit: 'Diamond', Value: 1},
+  {Card: 'Ace', Suit: 'Clover', Value: 1},
+  {Card: 'Ace', Suit: 'Heart', Value: 1},
+  {Card: 'Ace', Suit: 'Spade', Value: 1}
 ];
 
-var startGame = $('#Start').one("click", function (e) {
+var startGame = $('#Start').on("click", function (e) {
   $('#Bet').one("click", function (f) {
     this.betAmount = prompt("How much would you like to bet? Minimum $25")
     // console.log(this);
@@ -82,11 +82,15 @@ $('#Reset').on("click", function (e) {
   if ($('#Start').attr('class') == "hidden") {
     $('#Start').toggleClass('hidden')
   }
+  if ($('#NewRound').attr('class') !== "hidden") {
+    $('#NewRound').toggleClass('hidden')
+  }
   $('.Bank').text(500);
   $('.BetAmount').text(0);
   $('.rounds').text(0);
+  $('.PlayerValue').text(0);
+  $('.DealerValue').text(0);
   blackjack.resetGame();
-  startGame();
 });
 
 var blackjack = {
@@ -113,6 +117,7 @@ var blackjack = {
     blackjack.dealerCard();
     blackjack.dealerValue();
     $('#HitMe').on('click', function (g) {
+      console.log("clicked Hit Me")
       blackjack.playerHit();
     })
     $('#Stay').on('click', function (h) {
@@ -163,25 +168,23 @@ var blackjack = {
 
   playerAceValueChecker: function () {
     for (var i = 0; i < this.inPlay.playerCards.length; i++) {
-      if (blackjack.inPlay.playerCards[i].Card == "Ace") {
-        if (blackjack.playerCardValue > 10) {
-          blackjack.inPlay.playerCards[i].Value = 1
-        }
+      if (blackjack.inPlay.playerCards[i].Card == "Ace" && (blackjack.playerCardValue + 10) < 22) {
+        blackjack.inPlay.playerCards[i].Value = 11
       }
     }
   },
 
   dealerAceValueChecker: function () {
     for (var i = 0; i < this.inPlay.dealerCards.length; i++) {
-      if (blackjack.inPlay.dealerCards[i].Card == "Ace") {
-        if (blackjack.dealerCardValue > 10) {
-          blackjack.inPlay.dealerCards[i].Value = 1
-        }
+      if (blackjack.inPlay.dealerCards[i].Card == "Ace" && (blackjack.dealerCardValue + 10) < 22) {
+        blackjack.inPlay.dealerCards[i].Value = 11
       }
     }
   },
 
   playerHit: function () {
+    this.playerAceValueChecker();
+    this.playerValue();
     this.playerCard();
     this.playerValue();
     this.playerAceValueChecker();
@@ -199,8 +202,10 @@ var blackjack = {
   },
 
   dealerHit: function () {
-    this.dealerCard();
+    this.dealerAceValueChecker();
     this.dealerValue();
+    this.dealerCard();
+    // this.dealerValue();
     this.dealerAceValueChecker();
     this.dealerValue();
   },
@@ -217,23 +222,23 @@ var blackjack = {
   },
 
   outcome: function () {
-    if (this.playerCardValue == this.dealerCardValue && this.playerCardValue < 22) {
-      alert("Push! Make a bet for the next round")
+    if (this.playerCardValue > 21) {
+        console.log("Player Busts! Dealer Wins!")
+        $('.BetAmount').text(0);
+    } else if (this.dealerCardValue > 21) {
+      console.log("Dealer Busts! Player Wins!")
+      $('.Bank').text(Number($('.Bank').text()) + (Number($('.BetAmount').text() * 1.5)));
+      $('.BetAmount').text(0);
+    } else if (this.playerCardValue > this.dealerCardValue) {
+      console.log("Player Wins!")
+      $('.Bank').text(Number($('.Bank').text()) + (Number($('.BetAmount').text() * 1.5)));
+      $('.BetAmount').text(0);
+    } else if (this.playerCardValue < this.dealerCardValue) {
+      console.log("Dealer Wins!")
+      $('.BetAmount').text(0);
+    } else {
+      console.log("Push!")
       $('.Bank').text(Number($('.Bank').text()) + Number($('.BetAmount').text()));
-      $('.BetAmount').text(0);
-    } else if (this.playerCardValue < 22 && this.dealerCardValue > 21) {
-      alert("Dealer Busts! Player Wins! Make a bet for the next round")
-      $('.Bank').text(Number($('.Bank').text()) + (Number($('.BetAmount').text() * 1.5)));
-      $('.BetAmount').text(0);
-    } else if (this.playerCardValue > 21) {
-      alert("Player Busts! Dealer Wins!")
-      $('.BetAmount').text(0);
-    } else if (this.playerCardValue > this.dealerCardValue && this.playerCardValue < 22) {
-      alert("Player Wins! Make a bet for the next round")
-      $('.Bank').text(Number($('.Bank').text()) + (Number($('.BetAmount').text() * 1.5)));
-      $('.BetAmount').text(0);
-    } else if (this.playerCardValue < this.dealerCardValue && this.dealerCardValue < 22) {
-      alert("Dealer Wins! Make a bet for the next round")
       $('.BetAmount').text(0);
     }
     $('.rounds').text(Number($('.rounds').text()) + 1)
