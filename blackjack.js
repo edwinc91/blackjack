@@ -218,22 +218,22 @@ var blackjack = {
 
   outcome: function () {
     if (this.playerCardValue == this.dealerCardValue && this.playerCardValue < 22) {
-      console.log("Push! Make a bet for the next round")
+      alert("Push! Make a bet for the next round")
       $('.Bank').text(Number($('.Bank').text()) + Number($('.BetAmount').text()));
       $('.BetAmount').text(0);
     } else if (this.playerCardValue < 22 && this.dealerCardValue > 21) {
-      console.log("Dealer Busts! Player Wins! Make a bet for the next round")
+      alert("Dealer Busts! Player Wins! Make a bet for the next round")
       $('.Bank').text(Number($('.Bank').text()) + (Number($('.BetAmount').text() * 1.5)));
       $('.BetAmount').text(0);
     } else if (this.playerCardValue > 21) {
-      console.log("Player Busts! Dealer Wins!")
+      alert("Player Busts! Dealer Wins!")
       $('.BetAmount').text(0);
     } else if (this.playerCardValue > this.dealerCardValue && this.playerCardValue < 22) {
-      console.log("Player Wins! Make a bet for the next round")
+      alert("Player Wins! Make a bet for the next round")
       $('.Bank').text(Number($('.Bank').text()) + (Number($('.BetAmount').text() * 1.5)));
       $('.BetAmount').text(0);
     } else if (this.playerCardValue < this.dealerCardValue && this.dealerCardValue < 22) {
-      console.log("Dealer Wins! Make a bet for the next round")
+      alert("Dealer Wins! Make a bet for the next round")
       $('.BetAmount').text(0);
     }
     $('.rounds').text(Number($('.rounds').text()) + 1)
@@ -249,21 +249,7 @@ var blackjack = {
           $('#NewRound').toggleClass('hidden');
           blackjack.newRound();
           blackjack.shuffleDeck();
-          blackjack.playerCard();
-          blackjack.dealerCard();
-          blackjack.dealerValue();
-          blackjack.updateDealerCardValue();
-          blackjack.playerCard();
-          blackjack.playerValue();
-          blackjack.updatePlayerCardValue();
-          blackjack.dealerCard();
-          blackjack.dealerValue();
-          $('#HitMe').on('click', function (g) {
-            blackjack.playerHit();
-          })
-          $('#Stay').on('click', function (h) {
-            blackjack.dealerHitMechanic();
-          })
+          blackjack.gameMechanic();
         })
       });
     }
@@ -278,8 +264,6 @@ var blackjack = {
     }
     this.inPlay.playerCards = [];
     this.inPlay.dealerCards = [];
-    this.playerValue = 0;
-    this.dealerValue = 0;
   },
 
   shuffleDeck: function () {
