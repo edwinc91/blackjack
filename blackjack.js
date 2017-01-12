@@ -53,6 +53,12 @@ var deck = [
   {Card: 'A', Suit: 'S', Value: 1}
 ];
 
+var clickTest = document.querySelector('#HitMe')
+clickTest.addEventListener("click", function (eventObject) {
+  console.log(eventObject)
+  console.log(this)
+});
+
 var startGame = $('#Start').on("click", function (e) {
   // $('div#playerCardArea').after('<div id="playerCards" class="cardstack" style="font-size: 12px;">')
   // $('div#dealerCardArea').after('<div id="dealerCards" class="cardstack" style="font-size: 12px;">')
@@ -60,22 +66,23 @@ var startGame = $('#Start').on("click", function (e) {
     this.betAmount = prompt("How much would you like to bet? Minimum $25")
     // console.log(this);
     //come back later and fix this while loop..turns into an infinite loop, probably because the second prompt input doesnt register
-    // if (this.betAmount < 25) {
+    // if (this.betAmount < 25 || this.betAmount == NaN) {
+    //   console.log(this.betAmount)
     //   this.betTryTwo = prompt("I'm sorry, that's not enough to begin! Please bet at least $25")
-    //   while (this.betTryTwo < 25) {
+    //   if (this.betTryTwo < 25 || this.betTryTwo == NaN) {
+    //     console.log(this)
     //     prompt ("I'm sorry, that's not enough to begin! Please bet at least $25")
-    //   }
+    //   } else {
     //   $('.Bank').text(Number($('.Bank').text()) - this.betTryTwo);
-    //   blackQ.dealPlayerCard1();
-    // } else {
-    // if ($'.Bank').text(Number($('.Bank').text()) < this.betAmount) {
-      // prompt("It appears you don't have enough money to make that bet!")
+    //   // blackQ.dealPlayerCard1();
+    //   }
+    // } else if ($('.Bank').text(Number($('.Bank').text()) < this.betAmount)) {
+    //   prompt("It appears you don't have enough money to make that bet!")
     // } else {
       $('.Bank').text(Number($('.Bank').text()) - this.betAmount);
       $('.BetAmount').text(this.betAmount);
       $('#Start').toggleClass('hidden');
       blackjack.gameMechanic();
-    // }
     // }
   })
 });
@@ -147,11 +154,12 @@ var blackjack = {
       this.updateDealerCardValue();
       this.outcome();
     } else {
-      $('#HitMe').on('click', function (g) {
+      $('#HitMe').off().one('click', function (g) {
+        console.log(g)
         console.log("clicked Hit Me")
         blackjack.playerHit();
       });
-      $('#Stay').on('click', function (h) {
+      $('#Stay').one('click', function (h) {
         // blackjack.dealerAceValueChecker();
         blackjack.dealerHitMechanic();
       });
@@ -279,10 +287,10 @@ var blackjack = {
   },
 
   playerHit: function () {
-    this.playerAceValueChecker();
-    this.playerValue();
+    // this.playerAceValueChecker();
+    // this.playerValue();
     this.playerCard();
-    this.playerValue();
+    // this.playerValue();
     this.playerAceValueChecker();
     this.playerValue();
     this.didPlayerBust();
@@ -297,6 +305,14 @@ var blackjack = {
       this.outcome();
     } else {
       this.updatePlayerCardValue();
+      $('#HitMe').off().one('click', function (g) {
+        console.log(g)
+        console.log("clicked Hit Me")
+        blackjack.playerHit();
+      })
+      // $('#Stay').one('click', function (h) {
+      //   blackjack.dealerHitMechanic();
+      // })
     }
   },
 
