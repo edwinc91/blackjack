@@ -291,6 +291,8 @@ var blackjack = {
     this.renderDealerCards();
     this.dealerAceValueChecker();
     this.dealerValue();
+    this.dealerAceValueChecker();
+    this.dealerValue();
     this.updateDealerCardValue();
     if (this.dealerCardValue < 17) {
       setTimeout(function () {

@@ -25,6 +25,14 @@
    display: none;
  }
 
+ #Results {
+   position: relative;
+   padding: 0.5em 0.5em;
+   text-align: center;
+   color: gold;
+   font-size: 24px;
+ }
+
  .cardstack, .hand {
   position: relative;
   height: 9.6em;
