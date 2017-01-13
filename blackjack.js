@@ -53,15 +53,7 @@ var deck = [
   {Card: 'A', Suit: 'S', Value: 1}
 ];
 
-// var clickTest = document.querySelector('#HitMe')
-// clickTest.addEventListener("click", function (eventObject) {
-//   console.log(eventObject)
-//   console.log(this)
-// });
-
 var startGame = $('#Start').on("click", function (e) {
-  // $('div#playerCardArea').after('<div id="playerCards" class="cardstack" style="font-size: 12px;">')
-  // $('div#dealerCardArea').after('<div id="dealerCards" class="cardstack" style="font-size: 12px;">')
   $('#Bet').one("click", function (f) {
     this.betAmount = prompt("How much would you like to bet? Minimum $25")
     // console.log(this);
@@ -107,9 +99,7 @@ var blackjack = {
   inPlay: {
     cards: [],
     playerCards: [],
-    // playerAces: [],
     dealerCards: []
-    // dealerAces: []
   },
   usedCards: [],
   playerCardValue: 0,
@@ -131,10 +121,7 @@ var blackjack = {
     this.updatePlayerCardValue();
     this.dealerCard();
     this.renderDealerCardHidden();
-    // this.dealerFirstCardValueOnly();
-    // this.updateDealerCardValue();
     this.blackjackNotifier();
-    console.log(this.inPlay.dealerCards)
   },
 
   blackjackNotifier: function () {
@@ -163,12 +150,9 @@ var blackjack = {
       this.outcome();
     } else {
       $('#HitMe').off().one('click', function (g) {
-        console.log(g)
-        console.log("clicked Hit Me")
         blackjack.playerHit();
       });
       $('#Stay').off().one('click', function (h) {
-        // blackjack.dealerAceValueChecker();
         blackjack.dealerHitMechanic();
       });
     }
@@ -205,23 +189,6 @@ var blackjack = {
   },
 
   renderDealerCards: function () {
-    // $('div#dealerCards').detach()
-    // $('div#dealerCardArea').after('<div id="dealerCards" class="cardstack" style="font-size: 12px;">')
-    // if (this.inPlay.dealerCards.length = 1) {
-    //   cardRank = this.inPlay.dealerCards[0].Card
-    //   cardSuit = this.inPlay.dealerCards[0].Suit
-    //   if (cardSuit == 'D') {
-    //     $('div#dealerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &diams; </div>')
-    //   } else if (cardSuit == 'C') {
-    //     $('div#dealerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &hearts; </div>')
-    //   } else if (cardSuit == 'H') {
-    //     $('div#dealerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &clubs; </div>')
-    //   } else if (cardSuit == 'S') {
-    //     $('div#dealerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &spades; </div>')
-    //   }
-    // } else if (this.inPlay.dealerCards.length = 2) {
-    //   $('div#dealerCards').append('<div class="card rank"> + Hidden! + <br/></div>')
-    // } else {
       $('div#dealerCards').remove()
       $('div#dealerCardArea').after('<div id="dealerCards" class="cardstack" style="font-size: 12px;">')
       for (var i = 0; i < this.inPlay.dealerCards.length; i++) {
@@ -237,7 +204,6 @@ var blackjack = {
           $('div#dealerCards').append('<div class="card rank'+ cardRank + cardSuit + '">' + cardRank + '<br/> &spades; </div>')
         }
       }
-    // }
   },
 
   renderDealerCardHidden: function () {
@@ -266,14 +232,8 @@ var blackjack = {
     }
   },
 
-  // dealerFirstCardValueOnly: function () {
-  //   // console.log(this)
-  //   this.dealerCardValue = this.inPlay.dealerCards[0].Value
-  // },
-
   playerAceValueChecker: function () {
     for (var i = 0; i < this.inPlay.playerCards.length; i++) {
-      console.log(this.playerCardValue);
       if (this.inPlay.playerCards[i].Card == "A" && (this.playerCardValue + 10) < 22) {
         this.inPlay.playerCards[i].Value = 11
       } else if (this.inPlay.playerCards[i].Card == "A" && (this.playerCardValue + 10) > 22) {
@@ -297,10 +257,7 @@ var blackjack = {
   },
 
   playerHit: function () {
-    // this.playerAceValueChecker();
-    // this.playerValue();
     this.playerCard();
-    // this.playerValue();
     this.playerAceValueChecker();
     this.playerValue();
     this.didPlayerBust();
@@ -316,18 +273,12 @@ var blackjack = {
     } else {
       this.updatePlayerCardValue();
       $('#HitMe').off().one('click', function (g) {
-        console.log(g)
-        console.log("clicked Hit Me")
         blackjack.playerHit();
       })
-      // $('#Stay').one('click', function (h) {
-      //   blackjack.dealerHitMechanic();
-      // })
     }
   },
 
   dealerHit: function () {
-    console.log("DEALER HAS HIT")
     this.dealerValue();
     this.dealerCard();
     this.renderDealerCards();
@@ -337,22 +288,17 @@ var blackjack = {
   },
 
   dealerHitMechanic: function () {
-    console.log("DEALER HIT MECHANIC IS RUNNING")
     this.renderDealerCards();
     this.dealerAceValueChecker();
     this.dealerValue();
     this.updateDealerCardValue();
     if (this.dealerCardValue < 17) {
       setTimeout(function () {
-        console.log("DEALER HAS HIT")
         blackjack.dealerHit();
         setTimeout(function () {
           blackjack.dealerHitMechanic();
         }, 500)
       }, 1000)
-      // blackjack.dealerHit();
-      // this.updateDealerCardValue();
-      // this.dealerHitMechanic();
     } else {
       setTimeout(function () {
         blackjack.outcome();
