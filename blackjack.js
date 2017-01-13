@@ -87,7 +87,7 @@ var startGame = $('#Start').on("click", function (e) {
   })
 });
 
-$('#Reset').on("click", function (e) {
+$('#Reset').off().on("click", function (e) {
   if ($('#Start').attr('class') == "hidden") {
     $('#Start').toggleClass('hidden')
   }
@@ -117,6 +117,8 @@ var blackjack = {
 
   gameMechanic: function () {
     this.playerCard();
+    this.playerAceValueChecker();
+    this.playerValue();
     this.dealerCard();
     this.renderDealerCards();
     this.dealerAceValueChecker();
@@ -139,17 +141,23 @@ var blackjack = {
     this.dealerAceValueChecker();
     this.dealerValue();
     if (this.inPlay.playerCards.length == 2 && this.playerCardValue == 21 && this.playerCardValue == this.dealerCardValue) {
-      console.log("Blackjack all around!")
+      setTimeout(function () {
+        alert("Blackjack all around!")
+      }, 500)
       this.renderDealerCards();
       this.updateDealerCardValue();
       this.outcome();
     } else if (this.inPlay.playerCards.length == 2 && this.playerCardValue == 21) {
-      console.log("Player Blackjack!")
+      setTimeout(function () {
+        alert("Player Blackjack!")
+      }, 500)
       this.renderDealerCards();
       this.updateDealerCardValue();
       this.outcome();
     } else if (this.inPlay.dealerCards.length == 2 && this.dealerCardValue == 21) {
-      console.log("Dealer Blackjack!")
+      setTimeout(function () {
+        alert("Dealer Blackjack!")
+      })
       this.renderDealerCards();
       this.updateDealerCardValue();
       this.outcome();
@@ -159,7 +167,7 @@ var blackjack = {
         console.log("clicked Hit Me")
         blackjack.playerHit();
       });
-      $('#Stay').one('click', function (h) {
+      $('#Stay').off().one('click', function (h) {
         // blackjack.dealerAceValueChecker();
         blackjack.dealerHitMechanic();
       });
@@ -268,6 +276,8 @@ var blackjack = {
       console.log(this.playerCardValue);
       if (this.inPlay.playerCards[i].Card == "A" && (this.playerCardValue + 10) < 22) {
         this.inPlay.playerCards[i].Value = 11
+      } else if (this.inPlay.playerCards[i].Card == "A" && (this.playerCardValue + 10) > 22) {
+        this.inPlay.playerCards[i].Value = 1
       }
     }
   },
@@ -317,6 +327,7 @@ var blackjack = {
   },
 
   dealerHit: function () {
+    console.log("DEALER HAS HIT")
     this.dealerValue();
     this.dealerCard();
     this.renderDealerCards();
@@ -326,36 +337,56 @@ var blackjack = {
   },
 
   dealerHitMechanic: function () {
+    console.log("DEALER HIT MECHANIC IS RUNNING")
     this.renderDealerCards();
+    this.dealerAceValueChecker();
     this.dealerValue();
     this.updateDealerCardValue();
     if (this.dealerCardValue < 17) {
-      // setTimeout(blackjack.pleasework, 5000)
-      blackjack.dealerHit();
+      setTimeout(function () {
+        console.log("DEALER HAS HIT")
+        blackjack.dealerHit();
+        setTimeout(function () {
+          blackjack.dealerHitMechanic();
+        }, 500)
+      }, 1000)
+      // blackjack.dealerHit();
       // this.updateDealerCardValue();
-      this.dealerHitMechanic();
+      // this.dealerHitMechanic();
     } else {
-      this.outcome();
+      setTimeout(function () {
+        blackjack.outcome();
+      }, 1000)
     }
   },
 
   outcome: function () {
     if (this.playerCardValue > 21) {
-        console.log("Player Busts! Dealer Wins!")
-        $('.BetAmount').text(0);
+      setTimeout(function () {
+        alert("Player Busts! Dealer Wins!")
+      }, 500)
+      $('.BetAmount').text(0);
     } else if (this.dealerCardValue > 21) {
-      console.log("Dealer Busts! Player Wins!")
+      setTimeout(function () {
+        alert("Dealer Busts! Player Wins!")
+      }, 500)
       $('.Bank').text(Number($('.Bank').text()) + (Number($('.BetAmount').text() * 1.5)));
       $('.BetAmount').text(0);
     } else if (this.playerCardValue > this.dealerCardValue) {
-      console.log("Player Wins!")
+      setTimeout(function () {
+        alert("Player Wins!")
+      }, 500)
       $('.Bank').text(Number($('.Bank').text()) + (Number($('.BetAmount').text() * 1.5)));
       $('.BetAmount').text(0);
     } else if (this.playerCardValue < this.dealerCardValue) {
-      console.log("Dealer Wins!")
+      setTimeout(function () {
+        alert("Dealer Wins!")
+      }, 500)
       $('.BetAmount').text(0);
     } else {
-      console.log("Push!")
+      setTimeout(function () {
+        alert("Push!")
+      }, 500)
       $('.Bank').text(Number($('.Bank').text()) + Number($('.BetAmount').text()));
       $('.BetAmount').text(0);
     }
