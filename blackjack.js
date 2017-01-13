@@ -53,11 +53,11 @@ var deck = [
   {Card: 'A', Suit: 'S', Value: 1}
 ];
 
-var clickTest = document.querySelector('#HitMe')
-clickTest.addEventListener("click", function (eventObject) {
-  console.log(eventObject)
-  console.log(this)
-});
+// var clickTest = document.querySelector('#HitMe')
+// clickTest.addEventListener("click", function (eventObject) {
+//   console.log(eventObject)
+//   console.log(this)
+// });
 
 var startGame = $('#Start').on("click", function (e) {
   // $('div#playerCardArea').after('<div id="playerCards" class="cardstack" style="font-size: 12px;">')
@@ -142,21 +142,21 @@ var blackjack = {
     this.dealerValue();
     if (this.inPlay.playerCards.length == 2 && this.playerCardValue == 21 && this.playerCardValue == this.dealerCardValue) {
       setTimeout(function () {
-        alert("Blackjack all around!")
+        $('#Results').text("Blackjack all around! ")
       }, 500)
       this.renderDealerCards();
       this.updateDealerCardValue();
       this.outcome();
     } else if (this.inPlay.playerCards.length == 2 && this.playerCardValue == 21) {
       setTimeout(function () {
-        alert("Player Blackjack!")
+        $('#Results').text("Player Blackjack! ")
       }, 500)
       this.renderDealerCards();
       this.updateDealerCardValue();
       this.outcome();
     } else if (this.inPlay.dealerCards.length == 2 && this.dealerCardValue == 21) {
       setTimeout(function () {
-        alert("Dealer Blackjack!")
+        $('#Results').text("Dealer Blackjack! ")
       })
       this.renderDealerCards();
       this.updateDealerCardValue();
@@ -363,29 +363,34 @@ var blackjack = {
   outcome: function () {
     if (this.playerCardValue > 21) {
       setTimeout(function () {
-        alert("Player Busts! Dealer Wins!")
+        var text = $('#Results').text()
+        $('#Results').text(text + "Player Busts! Dealer Wins!")
       }, 500)
       $('.BetAmount').text(0);
     } else if (this.dealerCardValue > 21) {
       setTimeout(function () {
-        alert("Dealer Busts! Player Wins!")
+        var text = $('#Results').text()
+        $('#Results').text(text + "Dealer Busts! Player Wins!")
       }, 500)
       $('.Bank').text(Number($('.Bank').text()) + (Number($('.BetAmount').text() * 1.5)));
       $('.BetAmount').text(0);
     } else if (this.playerCardValue > this.dealerCardValue) {
       setTimeout(function () {
-        alert("Player Wins!")
+        var text = $('#Results').text()
+        $('#Results').text(text + "Player Wins!")
       }, 500)
       $('.Bank').text(Number($('.Bank').text()) + (Number($('.BetAmount').text() * 1.5)));
       $('.BetAmount').text(0);
     } else if (this.playerCardValue < this.dealerCardValue) {
       setTimeout(function () {
-        alert("Dealer Wins!")
+        var text = $('#Results').text()
+        $('#Results').text(text + "Dealer Wins!")
       }, 500)
       $('.BetAmount').text(0);
     } else {
       setTimeout(function () {
-        alert("Push!")
+        var text = $('#Results').text()
+        $('#Results').text(text + "Push!")
       }, 500)
       $('.Bank').text(Number($('.Bank').text()) + Number($('.BetAmount').text()));
       $('.BetAmount').text(0);
@@ -418,6 +423,7 @@ var blackjack = {
     }
     this.inPlay.playerCards = [];
     this.inPlay.dealerCards = [];
+    $('#Results').empty();
     $('div#playerCards').remove();
     $('div#dealerCards').remove();
     $('div#playerCardArea').after('<div id="playerCards" class="cardstack" style="font-size: 12px;">')
