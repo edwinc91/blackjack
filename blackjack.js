@@ -233,11 +233,16 @@ var blackjack = {
   },
 
   playerAceValueChecker: function () {
-    for (var i = 0; i < this.inPlay.playerCards.length; i++) {
-      if (this.inPlay.playerCards[i].Card == "A" && (this.playerCardValue + 10) < 22) {
-        this.inPlay.playerCards[i].Value = 11
-      } else if (this.inPlay.playerCards[i].Card == "A" && (this.playerCardValue + 10) > 22) {
-        this.inPlay.playerCards[i].Value = 1
+    if (this.inPlay.playerCards.length == 2 && this.inPlay.playerCards[0].Card == "A" && this.inPlay.playerCards[1].Card == "A") {
+      this.inPlay.playerCards[0].Value = 11
+      this.inPlay.playerCards[1].Value = 1
+    } else {
+      for (var i = 0; i < this.inPlay.playerCards.length; i++) {
+        if (this.inPlay.playerCards[i].Card == "A" && (this.playerCardValue + 10) < 22) {
+          this.inPlay.playerCards[i].Value = 11
+        } else if (this.inPlay.playerCards[i].Card == "A" && (this.playerCardValue + 10) > 22) {
+          this.inPlay.playerCards[i].Value = 1
+        }
       }
     }
   },
@@ -245,6 +250,9 @@ var blackjack = {
   dealerAceValueChecker: function () {
     if (this.inPlay.dealerCards.length == 1 && this.inPlay.dealerCards[0].Card == "A") {
       this.inPlay.dealerCards[0].Value = 11
+    } else if (this.inPlay.dealerCards.length == 2 && this.inPlay.dealerCards[0].Card == "A" && this.inPlay.dealerCards[1].Card == "A") {
+      this.inPlay.dealerCards[0].Value = 11
+      this.inPlay.dealerCards[1].Value = 1
     } else {
       for (var i = 0; i < this.inPlay.dealerCards.length; i++) {
         if (this.inPlay.dealerCards[i].Card == "A" && (this.dealerCardValue + 10) < 22) {
