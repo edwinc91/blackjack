@@ -56,11 +56,20 @@ var deck = [
 var startGame = $('#Start').on("click", function (e) {
   $('#Bet').one("click", function (f) {
     this.betAmount = prompt("How much would you like to bet? Minimum $25")
-    // console.log(this);
+    console.log(this);
     //come back later and fix this while loop..turns into an infinite loop, probably because the second prompt input doesnt register
-    // if (this.betAmount < 25 || this.betAmount == NaN) {
-    //   console.log(this.betAmount)
-    //   this.betTryTwo = prompt("I'm sorry, that's not enough to begin! Please bet at least $25")
+    if (this.betAmount < 25 || isNaN(this.betAmount) == true) {
+      console.log(this.betAmount)
+      this.betTryTwo = prompt("I'm sorry, that's not enough to begin! Please bet at least $25")
+      console.log(this.betTryTwo)
+      if (Number($('.Bank').text()) - this.betTryTwo < 0) {
+        alert("It appears you don't have enough money to make that bet!")
+      } else {
+        $('.Bank').text(Number($('.Bank').text()) - this.betTryTwo);
+        $('.BetAmount').text(this.betTryTwo);
+        $('#Start').toggleClass('hidden');
+        blackjack.gameMechanic();
+      }
     //   if (this.betTryTwo < 25 || this.betTryTwo == NaN) {
     //     console.log(this)
     //     prompt ("I'm sorry, that's not enough to begin! Please bet at least $25")
@@ -68,14 +77,14 @@ var startGame = $('#Start').on("click", function (e) {
     //   $('.Bank').text(Number($('.Bank').text()) - this.betTryTwo);
     //   // blackQ.dealPlayerCard1();
     //   }
-    // } else if ($('.Bank').text(Number($('.Bank').text()) < this.betAmount)) {
-    //   prompt("It appears you don't have enough money to make that bet!")
-    // } else {
+  } else if (Number($('.Bank').text()) - this.betAmount < 0) {
+      alert("It appears you don't have enough money to make that bet!")
+    } else {
       $('.Bank').text(Number($('.Bank').text()) - this.betAmount);
       $('.BetAmount').text(this.betAmount);
       $('#Start').toggleClass('hidden');
       blackjack.gameMechanic();
-    // }
+    }
   })
 });
 
@@ -115,7 +124,6 @@ var blackjack = {
     this.dealerValue();
     this.updateDealerCardValue();
     this.playerCard();
-    this.playerValue();
     this.playerAceValueChecker();
     this.playerValue();
     this.updatePlayerCardValue();
