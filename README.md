@@ -1,3 +1,5 @@
+<h2> Blackjack </h2>
+
 Technologies Used:
 
   I used html, css, javascript, and jQuery to create this game.
